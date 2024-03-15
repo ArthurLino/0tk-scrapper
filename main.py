@@ -39,8 +39,8 @@ def fetch_with_scrapper(s, logger):
 
     response = s.fetch()
     root.after(100)
-    treeview_process_screen.insert(parent=logger, index=END, text="Processo finalizado."
-                                                                          "Pode baixar os arquivos.")
+    treeview_process_screen.insert(parent=logger, index=END, text="Processo finalizado.")
+    treeview_process_screen.insert(parent=logger, index=END, text="Arquivos disponíveis para download.")
     download_btn.state(['!disabled'])
 
     global last_addresses
@@ -62,9 +62,9 @@ def create_files():
         newfile = f"{directory}/prototype_s.txt"
 
         for line in csv_reader:
-            with open(newfile, 'a') as new_txt:  # new file has .txt extn
-                txt_writer = csv.writer(new_txt, delimiter='\t')  # writefile
-                txt_writer.writerow(line)  # write the lines to file`
+            with open(newfile, 'w+') as new_txt:
+                txt_writer = csv.writer(new_txt, delimiter='\t')
+                txt_writer.writerow(line)
 
 
 root = Tk()
@@ -95,14 +95,14 @@ uf_entry.grid(column=2, row=1, sticky=(N, W))
 city_entry.grid(column=4, row=1, sticky=(N, W))
 locality_entry.grid(column=2, columnspan=2, row=2, sticky=(W, E))
 
-treeview_process_screen.grid(column=1, row=6, rowspan=2, columnspan=2, sticky=(N, S, W, E))
+treeview_process_screen.grid(column=1, row=6, rowspan=2, columnspan=3, sticky=(N, S, W, E))
 
 btn_search = ttk.Button(mainframe, text="Pesquisar", command=lambda: create_new_scrapper())
 btn_search.grid(column=1, columnspan=4, row=3, sticky=(N, S, W, E), pady=12)
 
 download_btn = ttk.Button(mainframe, text="Baixar Resultado", command=lambda: create_files())
 download_btn.state(['disabled'])
-download_btn.grid(column=3, columnspan=2, row=6, sticky=(N, S, W, E), padx=(16, 0), pady=8)
+download_btn.grid(column=4, columnspan=1, row=6, sticky=(N, S, W, E), padx=(16, 0), pady=8)
 
 reset_icon = ImageTk.PhotoImage(Img.open('./assets/reset.png'), ('16', '16'))
 new_query_btn = ttk.Button(mainframe, image=reset_icon, compound='image')

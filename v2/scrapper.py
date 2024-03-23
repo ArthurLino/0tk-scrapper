@@ -9,7 +9,7 @@ import time
 
 
 class ScrapperModes(Enum):
-    CEP = "cep"
+    STREET = "street"
     NEIGHBOURHOOD = "neighbourhood"
 
 
@@ -18,16 +18,15 @@ class Scrapper:
     def __init__(self, mode, uf, city, locality):
         self.driver = None
         self.modes = {
-            "cep": "https://www2.correios.com.br/sistemas/buscacep/buscaEndereco.cfm",
+            "street": "https://buscacepinter.correios.com.br/app/localidade_logradouro/index.php",
             "neighbourhood": "https://buscacepinter.correios.com.br/app/logradouro_bairro/index.php",
         }
         self.current_mode, self.inputs = self.setup_scrapper_mode(mode.value)
         self.scrap_params = dict(zip(self.inputs, [uf, city, locality]))
-        print(self.current_mode)
 
     def setup_scrapper_mode(self, selected_mode):
         input_ids_by_mode = {
-            "cep": ["cep"],
+            "street": ["uf", "localidade", "logradouro"],
             "neighbourhood": ["uf", "localidade", "bairro", "javascript:pesquisarPróximo"],
         }
 
